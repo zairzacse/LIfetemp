@@ -1,25 +1,30 @@
 var app = require('express')();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+
 var SerialPort = require("serialport").SerialPort;
 var serialPort = new SerialPort("/dev/ttyACM0", {
   baudrate: 9600
 });
-var tempdata,isconnect=false;
+
+app.use(require('express').static(__dirname));
+var tempdata;
+
 serialPort.on("open", function () {
-  console.log('open');
+  console.log('opened');
   serialPort.on('data', function(data) {
-    console.log('data received: ' + data);
-    if(isconnect){
-      socket.emit('data',data);
+    data = parseInt(data.toString());
+    if(data>15 && data<=150){
+        console.log("Data recieved is : " + data);
+        tempdata = data ;
     }
   });
 });
-io.on('connection' , function(socket){
-  console.log('connected');
-  isconnect=true;
+
+app.get("/data",function(req,res){
+  res.send({value : tempdata});
 });
+
 http.listen(1337,function(){
-  console.log("Socket listening on 1337");
-});
+  console.log("listning on 1337");
+})
 
