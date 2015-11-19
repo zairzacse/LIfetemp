@@ -1,0 +1,14 @@
+{
+  "name": "Lifetemp",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rishi mohi ashu sai",
+  "license": "MIT",
+  "dependencies": {
+    "serialport": "^2.0.5"
+  }
+}
